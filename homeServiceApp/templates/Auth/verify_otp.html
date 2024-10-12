@@ -1,0 +1,24 @@
+
+{% extends 'layout/master.html' %}
+{% load static %}
+{% block content %}
+
+
+  <main>
+      <div class="container">
+          <form method="POST">
+            {% csrf_token %}
+            <label for="email">Enter your email:</label>
+            <input type="email" name="email" required>
+
+            <label for="otp">Enter OTP:</label>
+            <input type="text" name="otp" required>
+
+            <button type="submit">Verify OTP</button>
+        </form>
+
+
+      </div>
+  </main>
+{% endblock %}
+

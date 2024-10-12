@@ -2661,7 +2661,9 @@ section,
   margin-bottom: 25px;
 }
 
-.comment-form form .btn-primary {
+/*.comment-form form */
+.btn-primary {
+
   border-radius: 4px;
   padding: 10px 20px;
   border: 0;
@@ -2669,7 +2671,8 @@ section,
   color: var(--contrast-color);
 }
 
-.comment-form form .btn-primary:hover {
+/*.comment-form form */
+.btn-primary:hover {
   color: var(--contrast-color);
   background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
 }
