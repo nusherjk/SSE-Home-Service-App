@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from django.contrib.auth import  views as auth_views
+from django.contrib.auth import views as auth_views
 # from rest_framework_simplejwt.views import TokenVerifyView, TokenObtainPairView
 # from .views import RegisterViewSet
 # from rest_framework_simplejwt.views import (
@@ -29,22 +29,8 @@ from .views import NewLoginView, RegisterView
 # from .views import UserViewSet
 urlpatterns = [
     path('login', NewLoginView.as_view(), name="login"),
-    # path('oauth/', include('allauth.urls')),
     path('oauth/', include('social_django.urls', namespace='social')),
     path('register', RegisterView.as_view(), name="register"),
-    # path('oauth/google/login/', google_login, name='google-direct-login'),
-    # path('getEmpInfo/<emp_id>', getEmpInfo, name="getEmpInfo"),
     path('logout', auth_views.LogoutView.as_view(), name="logout"),
-
-    # path('send-otp/', send_otp, name='send_otp'),
-    # path('verify-otp/', verify_otp, name='verify_otp'),
-
-    # path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    # path('profile', UserViewSet.as_view(), name='profile'),
-
-
-    # path('api-auth/', include('rest_framework.urls')),
 
 ]

@@ -30,9 +30,19 @@
             <li><a href="#hero" class="active">Home<br></a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#team">Team</a></li>
-            <li><a href="blog.html">Blog</a></li>
+             {% if user.is_authenticated %}
+                <li>Welcome, {{ user.username }}!</li>
+                 <form action="{% url 'logout' %}" method="post">
+                    <li>{% csrf_token %}
+                        <button type="submit">Logout</button></li>
+                 </form>
+             {% else %}
+                 <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+
+            {% endif %}
+            <li><a href="#services">Services</a></li>
+
             <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="#">Dropdown 1</a></li>
