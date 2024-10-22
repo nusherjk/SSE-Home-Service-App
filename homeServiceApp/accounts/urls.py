@@ -28,7 +28,7 @@ from .views import NewLoginView, RegisterView
 # , send_otp, verify_otp)
 # from .views import UserViewSet
 urlpatterns = [
-    path('login', NewLoginView.as_view(), name="login"),
+    path('login/', NewLoginView.as_view(), name="login"),
     path('oauth/', include('social_django.urls', namespace='social')),
     path('register', RegisterView.as_view(), name="register"),
     path('logout', auth_views.LogoutView.as_view(), name="logout"),

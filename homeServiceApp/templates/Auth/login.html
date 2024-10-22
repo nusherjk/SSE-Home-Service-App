@@ -58,7 +58,7 @@
 
 
 {#                      <a href="{% provider_login_url 'google' process="login" %}" class="btn btn-outline-secondary w-100" type="submit">#}
-                      <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn btn-outline-secondary w-100" type="submit">
+                      <a href="{% url 'social:begin' 'google-oauth2' %}?next='/'" class="btn btn-outline-secondary w-100" type="submit">
                           Login with Google
                       </a>
                     </div>
