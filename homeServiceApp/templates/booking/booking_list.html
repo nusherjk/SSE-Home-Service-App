@@ -1,0 +1,75 @@
+{% extends 'layout/master.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+
+
+    <main class="mt-5">
+    <div class="container mt-5">
+
+        <section id="service" class="services section">
+
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+            <h2> My Bookings</h2>
+               <table id="bookingsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Provider Name</th>
+                        <th>Total Cost</th>
+                        <th>Date</th>
+                        <th>From date</th>
+                        <th>To date</th>
+{#                        <th>Duration</th>#}
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.service }}</td>
+                        <td>{{ booking.provider }}</td>
+                        <td> {{ booking.calculate_total_price }} </td>
+                        <td>{{ booking.date }}</td>
+                        <td>{{ booking.date }} {{ booking.time }}</td>
+                        <td>{{ booking.end_date }} {{ booking.end_time }}</td>
+{#                        <td>{{ booking.duration }}</td>#}
+                        <td>{{ booking.status }}</td>
+                        <td><a href="#" class="btn btn-outline-secondary"> View</a></td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+          </div><!-- End Section Title -->
+
+
+    </section><!-- /Services Section -->
+
+    </div>
+  </main>
+    <!-- End #main -->
+
+
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#bookingsTable').DataTable({
+            // Optional: Configuration options go here
+        });
+    });
+</script>
+{% endblock %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+'core.middleware.InputSanitizingMiddleware' # added middleware to sanitize the inputs for all the get and post requests
 ]
 
 ROOT_URLCONF = 'homeServiceApp.urls'
@@ -182,6 +184,12 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use email for conventional authentication
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: 'alert alert-success border-success alert-dismissible fade show small',
+    messages.ERROR: 'alert alert-danger border-danger alert-dismissible fade show text-danger small',
+    messages.WARNING: 'alert alert-warning border-warning alert-dismissible fade show text-warning small',
+}
 
 # Email Configurations
 

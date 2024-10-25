@@ -1,3 +1,6 @@
+from datetime import timedelta
+from decimal import Decimal
+
 from django.db import models
 
 # Service Category (e.g., Plumbing, Cleaning, Electrical)
@@ -14,9 +17,12 @@ class Service(models.Model):
     category = models.ForeignKey(ServiceCategory, on_delete=models.CASCADE)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    duration = models.DurationField(default=timedelta(hours=2))
 
     def __str__(self):
         return f"{self.name} - {self.category.name}"
+
+
 
 
 # Profile for service providers
@@ -29,7 +35,7 @@ class ProviderProfile(models.Model):
     bio = models.TextField()
 
     def __str__(self):
-        return self.user.username
+        return self.user.first_name + " " + self.user.last_name
 
 
 # Service bookings made by customers
@@ -41,6 +47,8 @@ class Booking(models.Model):
     time = models.TimeField()
     address = models.CharField(max_length=255)
     notes = models.TextField(blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
     status_choices = [
         ('Pending', 'Pending'),
         ('Accepted', 'Accepted'),
@@ -48,6 +56,22 @@ class Booking(models.Model):
         ('Cancelled', 'Cancelled'),
     ]
     status = models.CharField(max_length=10, choices=status_choices, default='Pending')
+
+
+    def calculate_total_price(self):
+        # Service charge (already stored in the 'price' field)
+        service_charge = self.service.price
+
+        # Provider's hourly rate (assumed to be from the ProviderProfile model)
+        hourly_rate = Decimal(self.provider.hourly_rate)
+
+        # Convert duration (timedelta) to hours
+        job_duration_in_hours = Decimal(self.service.duration.total_seconds() / 3600)  # Convert seconds to hours
+
+        # Calculate the total price
+        total_price = service_charge + (hourly_rate * job_duration_in_hours )
+
+        return total_price
 
     def __str__(self):
         return f"Booking by {self.customer.username} for {self.service.name}"

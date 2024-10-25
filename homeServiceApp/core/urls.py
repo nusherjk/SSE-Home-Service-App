@@ -20,6 +20,9 @@ from .views import *
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('services/', ServiceListView.as_view(), name='services'),
+    path('services/<service_id>/', ServiceDetailView.as_view(), name='services'),
+    path('createBooking/<service_id>/<provider_id>/', BookingCreateView.as_view(), name='createBooking'),
+    path('bookings', BookingListView.as_view(), name='bookings'),
     path('providers/', ProviderListView.as_view(), name='providers'),
     path('providers/<id>/', ProviderDetailView.as_view(), name='providers'),
     # path('login', LoginView.as_view(), name='login'),

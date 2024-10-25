@@ -1,3 +1,6 @@
+import datetime
+from decimal import Decimal
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -30,10 +33,16 @@ class ServiceListView(ListView):
     paginate_by = 10  # Add pagination if you have many services
 
 # Detail view for a specific service
-class ServiceDetailView(DetailView):
-    model = Service
+class ServiceDetailView(LoginRequiredMixin, TemplateView):
+    service_model = Service
+    provider_model = ProviderProfile
     template_name = 'services/service_detail.html'
-    context_object_name = 'service'
+    # context_object_name = 'service'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['service'] = self.service_model.objects.get(id=self.kwargs['service_id'])
+        context['providers'] = self.provider_model.objects.filter(services=context['service'])
+        return context
 
 # List service providers
 class ProviderListView(ListView):
@@ -49,20 +58,58 @@ class ProviderDetailView(DetailView):
     context_object_name = 'provider'
 
 # Create a booking (only available for logged-in customers)
-class BookingCreateView(LoginRequiredMixin, CreateView):
+class BookingCreateView(LoginRequiredMixin, TemplateView):
     model = Booking
-    form_class = BookingForm
-    template_name = 'bookings/booking_form.html'
-    success_url = reverse_lazy('booking-list')
+    service_model = Service
+    provider_model = ProviderProfile
+    # form_class = BookingForm
+    template_name = 'booking/booking_form.html'
+    # success_url = reverse_lazy('booking-list')
+
+
+    def get_context_data(self, **kwargs):
+        print("HAHA")
+        context = super().get_context_data(**kwargs)
+        context['service'] = self.service_model.objects.get(id=self.kwargs['service_id'])
+        context['provider'] = self.provider_model.objects.get(id=self.kwargs['provider_id'])
+        context['total'] =  context['service'].price + (Decimal(context['provider'].hourly_rate) * Decimal(context['service'].duration.total_seconds()) / Decimal(3600) )
+        context['GST'] =  context['total']/10 # 10%
+        return context
+
+
+
+    def post(self, *args, **kwargs):
+        # print(self.request.POST)
+
+        duration = self.service_model.objects.get(id=self.kwargs['service_id']).duration
+        startTimeDate = datetime.datetime.combine(date=datetime.datetime.strptime(self.request.POST['ddate'], '%Y-%m-%d').date(),
+                                                  time=datetime.datetime.strptime(self.request.POST['dtime'], '%H:%M').time())
+        endTimeDate = startTimeDate+ duration
+        booking = Booking.objects.create(
+            customer=self.request.user,
+            service=self.service_model.objects.get(id=self.kwargs['service_id']),
+            provider=self.provider_model.objects.get(id=self.kwargs['provider_id']),
+            address=self.request.POST['daddress'],
+            date=self.request.POST['ddate'],
+            time=self.request.POST['dtime'],
+            end_date= endTimeDate.date(),
+            end_time=endTimeDate.time()
+                                         )
+        booking.save()
+
+        return redirect('services')
 
     def form_valid(self, form):
         form.instance.customer = self.request.user
         return super().form_valid(form)
 
+
+
+
 # List all bookings for the logged-in customer
 class BookingListView(LoginRequiredMixin, ListView):
     model = Booking
-    template_name = 'bookings/booking_list.html'
+    template_name = 'booking/booking_list.html'
     context_object_name = 'bookings'
 
     def get_queryset(self):
@@ -71,7 +118,7 @@ class BookingListView(LoginRequiredMixin, ListView):
 # Detail view for a specific booking
 class BookingDetailView(LoginRequiredMixin, DetailView):
     model = Booking
-    template_name = 'bookings/booking_detail.html'
+    template_name = 'booking/booking_detail.html'
     context_object_name = 'booking'
 
 # Update a booking (e.g., reschedule)

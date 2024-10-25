@@ -1,0 +1,15 @@
+<
+
+    <script>
+    document.getElementById('dtime').addEventListener('input', function() {
+        let timeInput = this.value;
+        if (timeInput) {
+            // Ensure minutes are always set to 00
+            let [hours, minutes] = timeInput.split(':');
+            this.value = `${hours}:00`;
+        }
+    });
+</script>
+
+
+
