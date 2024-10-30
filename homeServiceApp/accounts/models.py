@@ -41,6 +41,7 @@ and profession.
     country = CountryField(default="au")
     C19Vaccinated = models.BooleanField(default=False)
     profession = models.CharField(max_length=200)
+    is_completed = models.BooleanField(default=False)
 
     # email = models.EmailField(unique=True, primary_key=True)
     # # primary_address = models.CharField(max_length=2000, null=True, blank=True)
@@ -52,6 +53,11 @@ and profession.
     REQUIRED_FIELDS = []
 
 
+
+
+class Address(models.Model):
+    line1 = models.CharField(max_length=200)
+    line2 = models.CharField(max_length=200)
 
 
 # class OTP(models.Model):

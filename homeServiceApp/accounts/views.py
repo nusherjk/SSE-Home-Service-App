@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.checks import messages
 from django.shortcuts import render, redirect
 # from rest_framework_simplejwt.views import TokenObtainPairView
@@ -21,21 +22,47 @@ class RegisterView(FormView):
         return super().form_valid(form)
     def post(self, request, *args, **kwargs):
         form = CustomerRegisterForm(request.POST)
-        email = form.data['email']
-        password = form.data['password']
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            country = form.cleaned_data['country']
+            C19Vaccinated = form.cleaned_data['C19Vaccinated']
+            profession = form.cleaned_data['profession']
 
-        if Customer.objects.filter(email=email).exists():
-            # messages.add_message(self.request, messages.ERROR, "User already exists! Please Try and login!")
-            return redirect('register')
-        user = Customer.objects.create_user(email=email,
-                                     password=password,
-                                     )
+            if Customer.objects.filter(email=email).exists():
+
+                user = Customer.objects.get(email=email)
+                if user.is_completed:
+                # messages.add_message(self.request, messages.ERROR, "User already exists! Please Try and login!")
+                    return redirect('register')
+                else:
+                    pass_verified = user.check_password(password)
+
+                    user.C19Vaccinated = C19Vaccinated
+                    user.profession = profession
+                    user.country = country
+                    user.is_completed = True
+                    user.save()
+                    print("user Updated")
+
+            else:
+                user = Customer.objects.create_user(email=email,
+                                         password=password,
+                                                first_name=first_name,
+                                                last_name=last_name,
+                                                country=country,
+                                                C19Vaccinated=C19Vaccinated,
+                                                profession=profession,
+                                                is_completed=True
+                                         )
 
 
 
 
 
-        return redirect('login')
+            return redirect('login')
 
 
 class NewLoginView(LoginView):
@@ -43,6 +70,14 @@ class NewLoginView(LoginView):
 
 
 from django.shortcuts import redirect
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'Auth/profile.html'
+
+
+
+
 # from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 # from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 # from allauth.socialaccount.helpers import complete_social_login

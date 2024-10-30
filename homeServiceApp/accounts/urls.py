@@ -24,7 +24,7 @@ from django.contrib.auth import views as auth_views
 # )
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import NewLoginView, RegisterView
+from .views import NewLoginView, RegisterView, ProfileView
 # , send_otp, verify_otp)
 # from .views import UserViewSet
 urlpatterns = [
@@ -32,5 +32,6 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
     path('register', RegisterView.as_view(), name="register"),
     path('logout', auth_views.LogoutView.as_view(), name="logout"),
+    path('profile', ProfileView.as_view(), name="profile"),
 
 ]

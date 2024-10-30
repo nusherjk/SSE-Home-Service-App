@@ -1,0 +1,100 @@
+{% extends 'layout/master.html' %}
+{% load static %}
+{% block content %}
+
+
+  <main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4 mt-2">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+{#                <a href="{% static 'DashBoard' %}" class="logo d-flex align-items-center w-auto">#}
+{#                  <img src="{% static 'img/mblsmall.png' %}" alt="">#}
+{#                  <span class="d-none d-lg-block">Mercantile Bank Ltd.</span>#}
+{#                </a>#}
+              </div><!-- End Logo -->
+
+              <div class="bg-body-tertiary p-4 mb-3">
+
+                <div class="card-body">
+
+                    {% if not user.is_completed %}
+                        <div class="alert alert-danger" role="alert">
+                          Profile is not Complete please complete the required information first.
+                        <a href="#" class="btn btn-danger"> Complete Profile</a>
+                        </div>
+                    {% endif %}
+
+                  <div class="pt-4 pb-2">
+                      <h1 class="sitename text-center">HireUp</h1>
+{#                    <h5 class="card-title text-center pb-0 fs-4">Sustainable Finance Reporting Software</h5>#}
+                    <p class="text-center small">Hello, {{ user.username }}</p>
+{#                      {%  include 'partials/messages.html' %}#}
+
+                      <div class="profile-card">
+                        <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Date of Birth:</strong> {{ user.dob|date:"d M Y" }}</p>
+                        <p><strong>Country:</strong> {{ user.country.name }}</p>
+                        <p><strong>COVID-19 Vaccinated:</strong> {{ user.C19Vaccinated|yesno:"Yes,No" }}</p>
+                        <p><strong>Profession:</strong> {{ user.profession }}</p>
+                        <p><strong>Profile Completion Status:</strong> {{ user.is_completed|yesno:"Completed,Not Completed" }}</p>
+                          <a href="#" class="btn btn-outline-success">Update Profile</a>
+                    </div>
+                  </div>
+
+{#                  <form class="row g-3 needs-validation "  method="post" action="{% url 'register' %}" >#}
+{#                        {% csrf_token %}#}
+{##}
+{#                      {% for field in form %}#}
+{#                        <div class="col-12">#}
+{#                          <label for="yourUsername" class="form-label">{{ field.label }}</label>#}
+{#                          <div class="input-group has-validation">#}
+{#                            {{ field }}#}
+{#                            <div class="invalid-feedback">#}
+{#                                {% if field.errors %}#}
+{#                                    {{ field.errors|striptags }}#}
+{#                                {% else %}#}
+{#                                    Please enter your {{ field.label }}.#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                          </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{##}
+{#                    <div class="col-12">#}
+{#                      <button class="btn btn-primary w-100" type="submit">Sign Up</button>#}
+{#                    </div>#}
+{#                    <div class="col-12 text-center">#}
+{#                      or#}
+{#                    </div>#}
+{#                    <div class="col-12">#}
+{#                         <a href="{% url 'social:begin' 'google-oauth2' %}?next='/'" class="btn btn-outline-secondary w-100" type="submit">#}
+{#                          Login with Google#}
+{#                      </a>#}
+{#                    </div>#}
+{#                    <div class="col-12 text-center">#}
+{#                      <p class="small mb-0">Don't have account? <a href="{% url 'login' %}">Create an account</a></p>#}
+{#                    </div>#}
+{#                  </form>#}
+
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+    <!-- End #main -->
+
+{% endblock %}

@@ -116,6 +116,7 @@ class BookingListView(LoginRequiredMixin, ListView):
         return Booking.objects.filter(customer=self.request.user)
 
 # Detail view for a specific booking
+# TODO:
 class BookingDetailView(LoginRequiredMixin, DetailView):
     model = Booking
     template_name = 'booking/booking_detail.html'
