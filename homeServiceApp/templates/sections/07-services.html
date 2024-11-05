@@ -5,10 +5,10 @@
           <div class="container section-title" data-aos="fade-up">
             <h2>Our Services</h2>
 
-              {% if not user.is_complete %}
+              {% if  user.is_completed is False %}
                         <div class="alert alert-danger" role="alert">
-                          Profile is not Complete please complete the required information first.
 
+                          Profile is not Complete please complete the required information first.
                         </div>
                 {% endif %}
             <p>List of out current services</p>

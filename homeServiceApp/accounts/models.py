@@ -13,6 +13,8 @@ from django.utils import timezone
 
 
 class CustomerManager (UserManager):
+    NECESSARY_FIELDS = ['first_name', 'last_name', 'username', 'email', 'dob', 'country', 'address', 'profession',
+                        'C19Vaccinated', 'is_completed']
 
     def create_user(self, email, password=None, **extra_fields):
 
@@ -27,37 +29,49 @@ class CustomerManager (UserManager):
         return super().create_user(username=username, password=password, email=email, **extra_fields)
 
 
+
+
+
+    def get_n_fields(self):
+        return self.NECESSARY_FIELDS
+
+
+
 class Customer(AbstractUser):
     '''
      name, age, mobile,
-email, country of citizenship, language preferred, Covid-19 vaccinated or not, or credit card bundle, trade,
-and profession.
+    email, country of citizenship, language preferred, Covid-19 vaccinated or not, or credit card bundle, trade,
+    and profession.
     '''
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField()
     dob = models.DateField(default=timezone.now())
+    address = models.ForeignKey("accounts.Address", on_delete=models.DO_NOTHING, null=True)
 
     country = CountryField(default="au")
     C19Vaccinated = models.BooleanField(default=False)
     profession = models.CharField(max_length=200)
     is_completed = models.BooleanField(default=False)
-
-    # email = models.EmailField(unique=True, primary_key=True)
-    # # primary_address = models.CharField(max_length=2000, null=True, blank=True)
-    # account_verified = models.BooleanField(default=False)
-    # # profile_picture = models.ImageField(upload_to="profile_pictures", null=True, blank=True)
-    #
     objects = CustomerManager()
-    # USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
 
 
 
+
 class Address(models.Model):
-    line1 = models.CharField(max_length=200)
-    line2 = models.CharField(max_length=200)
+    line1 = models.CharField(max_length=200, null=False)
+    line2 = models.CharField(max_length=200, null=True)
+    suburb = models.CharField(max_length=20, null=False)
+    postcode = models.CharField(max_length=20, null=False)
+    state = models.CharField(max_length=20, null=False)
+
+
+    def __str__(self):
+        return self.line1 + " " + self.line2 + ", "+ self.suburb + ", " + self.state + ", " + self.postcode + "."
+    class Meta:
+        verbose_name = 'Addresses'
 
 
 # class OTP(models.Model):
@@ -89,11 +103,4 @@ class Address(models.Model):
 
 
 
-# class AddressBook(models.Model):
-#     user = models.ForeignKey("accounts.User", on_delete=models.DO_NOTHING, related_name='user_address')
-#     name = models.CharField(max_length=10, null=False, blank=False)
-#     address = models.CharField(max_length=2000, null=False, blank=False)
-#     Upozila = models.CharField(max_length=20, null=True, blank=True)
-#     District = models.CharField(max_length=20, null=True, blank=True)
-#     Division = models.CharField(max_length=20, null=True, blank=True)
 

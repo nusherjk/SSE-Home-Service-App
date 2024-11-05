@@ -25,5 +25,9 @@ urlpatterns = [
     path('bookings', BookingListView.as_view(), name='bookings'),
     path('providers/', ProviderListView.as_view(), name='providers'),
     path('providers/<id>/', ProviderDetailView.as_view(), name='providers'),
+    path('booking-requests/', ProviderBooks.as_view(), name='booking-requests'),
+    path('booking-requests/<id>/cancel', BookingCancelView.as_view(), name='booking-cancel'),
+    path('booking-requests/<id>/accept', BookingAcceptView.as_view(), name='booking-accept'),
+
     # path('login', LoginView.as_view(), name='login'),
 ]

@@ -1,18 +1,11 @@
+from django.apps import apps
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.checks import messages
-from django.shortcuts import render, redirect
-# from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Customer
-from .forms import CustomerRegisterForm
-# AddressBook)
+from .forms import CustomerRegisterForm, AddressForm
 from django.views.generic import TemplateView, FormView
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponse
 
-
-# from rest_framework_simplejwt.serializers import TokenObtainSerializer
-# Create your views here.
-from .utils import send_welcome_email
 
 class RegisterView(FormView):
     template_name = 'Auth/register.html'
@@ -73,7 +66,39 @@ from django.shortcuts import redirect
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'Auth/profile.html'
+    template_name = 'Auth/userProfiles.html'
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_provider'] = False
+        context['addressform'] = AddressForm()
+        if apps.get_model('core', 'ProviderProfile').objects.filter(user=self.request.user).exists():
+            context['is_provider'] = True
+            context['user_additional'] = apps.get_model('core', 'ProviderProfile').objects.get(user=self.request.user)
+
+
+        return context
+
+
+    def post(self,*args, **kwargs):
+        form = AddressForm(self.request.POST)
+        if form.is_valid():
+            address = form.save()
+            self.request.user.address = address
+            self.request.user.save()
+        self.request.user.is_completed = True
+        #     Check Profile is complete or not
+        for items in Customer.objects.get_n_fields():
+            print(getattr(self.request.user, items))
+            if getattr(self.request.user, items) is None:
+                print(items + " Is empty")
+                self.request.user.is_completed = False
+        self.request.user.save()
+
+
+        return redirect('profile')
 
 
 
@@ -145,14 +170,9 @@ from django.conf import settings
 #         instance = self.request.user
 #         return instance
 #
-# class AddressViewSet(ModelViewSet):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = AddressSerializer
-#     queryset = AddressBook.objects.all()
-#
-#
+# class AddressView(LoginRequiredMixin, TemplateView):
 #     def get_queryset(self):
-#         instances = AddressBook.objects.filter(user=self.request.user)
+#         instances = Address.objects.filter(user=self.request.user)
 #         return instances
 #
 #

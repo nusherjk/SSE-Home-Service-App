@@ -1,0 +1,85 @@
+{% extends 'layout/master.html' %}
+{% load static %}
+{% block content %}
+
+
+  <main class="mt-5">
+    <div class="container mt-5">
+
+        <section  class="services section">
+
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+            <h2> Booking Requests </h2>
+               <table id="bookingsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Provider Name</th>
+                        <th>Total Cost</th>
+                        <th>Date</th>
+                        <th>From date</th>
+                        <th>To date</th>
+{#                        <th>Duration</th>#}
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.service }}</td>
+                        <td>{{ booking.provider }}</td>
+                        <td> {{ booking.calculate_total_price }} </td>
+                        <td>{{ booking.date }}</td>
+                        <td>{{ booking.date }} {{ booking.time }}</td>
+                        <td>{{ booking.end_date }} {{ booking.end_time }}</td>
+{#                        <td>{{ booking.duration }}</td>#}
+                        <td>{{ booking.status }}</td>
+                        <td>
+                            <a href="{% url 'booking-accept' booking.id %}" class="btn btn-outline-success"> Accept</a>
+                            <a href="{% url 'booking-cancel' booking.id %}" class="btn btn-outline-danger"> Reject</a>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                  Launch demo modal
+                                </button>
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+
+
+                </tbody>
+            </table>
+
+          </div><!-- End Section Title -->
+
+
+    </section><!-- /Services Section -->
+
+    </div>
+  </main>
+
+
+<div class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- End #main -->
+
+{% endblock %}

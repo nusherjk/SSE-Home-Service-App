@@ -1,8 +1,26 @@
 # forms.py
 from django import forms
-from .models import Customer
+from .models import Customer, Address
 from django_countries.fields import CountryField
 
+
+class AddressForm(forms.ModelForm):
+    class Meta():
+        model = Address
+        fields = ['line1','line2', 'suburb','postcode', 'state']
+        widgets = {
+            'line1': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Line 1', 'required': 'required'}),
+            'line2': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Line 2' }),
+            'suburb': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Suburb Name', 'required': 'required'}),
+            'postcode': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Post Code', 'required': 'required'}),
+            'state': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'State', 'required': 'required'})
+
+        }
 class CustomerRegisterForm(forms.ModelForm):
 
     retype_password = forms.CharField(
@@ -37,3 +55,6 @@ class CustomerRegisterForm(forms.ModelForm):
             'password': forms.PasswordInput(
                 attrs={'class': 'form-control', 'placeholder': 'Password', 'required': 'required'}),
         }
+
+
+

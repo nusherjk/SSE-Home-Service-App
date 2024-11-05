@@ -1,0 +1,20 @@
+<div class="tab-pane fade show profile-edit" id="profile-edit">
+        <p>balsal</p>
+
+    <form action="{% url 'profile' %}" method="POST">
+        {% csrf_token %}
+        {{ addressform }}
+        <div class="">
+             <button type="submit" class="form-control my-2 btn btn-success">
+            {% if user.address %}
+            Update
+                {% else %}
+                Add
+            {% endif %}
+        Address
+        </button>
+        </div>
+
+    </form>
+</div>
+

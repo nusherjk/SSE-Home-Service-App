@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.contrib.auth.admin import UserAdmin
-from .models import Customer
+from .models import Customer, Address
+
+
 # , AddressBook, OTP)
 
 
@@ -9,12 +11,12 @@ from .models import Customer
 # Register your models here.
 @admin.register(Customer)
 class UserModel(UserAdmin):
-    list_display = ['username', 'email']
+    list_display = Customer.objects.get_n_fields()
 
 
-# @admin.register(AddressBook)
-# class AddressModel(ModelAdmin):
-#     list_display = ['id','name', 'address']
+@admin.register(Address)
+class AddressModel(ModelAdmin):
+    list_display = ['id','line1', 'line2', 'suburb', 'state', 'postcode']
 #
 #
 # @admin.register(OTP)

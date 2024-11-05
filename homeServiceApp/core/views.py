@@ -3,11 +3,14 @@ from decimal import Decimal
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 
 # Create your views here.
-
+PENDING ='Pending'
+ACCEPTED = 'Accepted'
+COMPLETED = 'Completed'
+CANCELLED = 'Cancelled'
 
 class IndexView(TemplateView):
     template_name = 'landing.html'
@@ -122,6 +125,9 @@ class BookingDetailView(LoginRequiredMixin, DetailView):
     template_name = 'booking/booking_detail.html'
     context_object_name = 'booking'
 
+
+
+
 # Update a booking (e.g., reschedule)
 class BookingUpdateView(LoginRequiredMixin, UpdateView):
     model = Booking
@@ -130,15 +136,32 @@ class BookingUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('booking-list')
 
 # Cancel a booking (sets status to 'Cancelled')
-class BookingCancelView(LoginRequiredMixin, UpdateView):
-    model = Booking
-    fields = ['status']
-    template_name = 'bookings/booking_cancel.html'
-    success_url = reverse_lazy('booking-list')
+class BookingCancelView(LoginRequiredMixin, RedirectView):
+    url = reverse_lazy('booking-requests')  # Replace 'history-page' with your target URL name
+    def get(self, *args, **kwargs):
 
-    def form_valid(self, form):
-        form.instance.status = 'Cancelled'
-        return super().form_valid(form)
+        # Call a function to update the history (implement your history update logic here)
+        booking = Booking.objects.get(id= kwargs['id'])
+        booking.status = CANCELLED
+        booking.save()
+
+        # Continue with the redirection
+        return super().get(self.request, *args, **kwargs)
+
+
+class BookingAcceptView(LoginRequiredMixin, RedirectView):
+    url = reverse_lazy('booking-requests')  # Replace 'history-page' with your target URL name
+
+    def get(self, *args, **kwargs):
+        # Call a function to update the history (implement your history update logic here)
+        booking = Booking.objects.get(id=kwargs['id'])
+        booking.status = ACCEPTED
+        booking.save()
+
+        # Continue with the redirection
+        return super().get(self.request, *args, **kwargs)
+
+
 
 # Create a review for a completed booking
 class ReviewCreateView(LoginRequiredMixin, CreateView):
@@ -156,6 +179,15 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('booking-detail', kwargs={'pk': self.kwargs['booking_id']})
 
 # List all reviews for a specific provider
+
+
+class ProviderBooks(LoginRequiredMixin, TemplateView):
+    template_name = 'providers/Booking_requests.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bookings'] = Booking.objects.filter(provider__user=self.request.user, status='PENDING')
+        return context
 class ProviderReviewListView(ListView):
     model = Review
     template_name = 'reviews/review_list.html'
