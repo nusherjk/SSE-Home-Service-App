@@ -1,4 +1,4 @@
-{% extends 'layout/master.html' %}
+{% extends 'layout/base.html' %}
 {% load static %}
 {% block content %}
 
@@ -38,7 +38,7 @@
                           <label for="provider"> Address </label>
                       </div>
                       <div class="col">
-                          <input class="form-control" type="text" name="daddress" placeholder="Enter the address" >
+                          <input class="form-control" type="text" name="daddress"  disabled="true" value="{{ user.address }}">
                       </div>
                   </div>
 
@@ -87,7 +87,7 @@
       <th scope="row">3</th>
       <td>Hourly Rate of {{ provider.user.last_name }}</td>
         <td></td>
-        <td>{{ provider.hourly_rate }}</td>
+        <td>{{ provider.hourly_rate }} AUD</td>
 
     </tr>
     <tr>
@@ -102,20 +102,20 @@
         <td>Service Charge</td>
 
       <td></td>
-      <td>{{ service.price }}</td>
+      <td>{{ service.price }} AUD.</td>
     </tr>
     <tr>
       <th scope="row">6</th>
         <td> GST (10% Included) </td>
       <td ></td>
-      <td>{{  GST }}</td>
+      <td>{{  GST }} AUD.</td>
     </tr>
 
   <tr>
       <th scope="row"></th>
         <td> Total </td>
       <td ></td>
-      <td>{{ total }}</td>
+      <td>{{ total }} AUD.</td>
     </tr>
   </tbody>
 </table>

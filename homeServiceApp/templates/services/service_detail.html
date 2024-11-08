@@ -1,4 +1,4 @@
-{% extends 'layout/master.html' %}
+{% extends 'layout/base.html' %}
 {% load static %}
 {% block content %}
 
@@ -18,6 +18,8 @@
 
             <div class="row gy-4">
 
+
+
                 {% for provider in providers %}
 
                     <div class="card" data-aos="fade-up">
@@ -34,10 +36,13 @@
 
                       </div>
 
-                    <div class="card-footer">
-
-                              <div><a href="{% url 'createBooking' service_id=service.id provider_id=provider.id %}" class="btn btn-primary float-end">Make a booking!</a></div>
-
+                    <div class="card-footer bg-danger-subtle" >
+                            {% if user.is_completed %}
+                              <div><a href="{% url 'createBooking' service_id=service.id provider_id=provider.id %}" class=" btn btn-primary float-end">Make a booking!</a></div>
+                                {% else %}
+                                <div><a href="{% url 'createBooking' service_id=service.id provider_id=provider.id %}" class=" btn float-end" disabled="true" >Make a booking!</a></div>
+                                
+                            {% endif %}
 
                     </div>
                     </div>

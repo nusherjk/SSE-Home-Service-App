@@ -28,12 +28,30 @@
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="{% url 'index' %}" class="active">Home<br></a></li>
-{#            <li><a href="#about">About</a></li>#}
-{#          <li><a href="#contact">Contact</a></li>#}
             <li><a href="{% url 'services' %}">Services</a></li>
+              
+
              {% if user.is_authenticated %}
                  <li><a href="{% url 'bookings' %}" class="active">My Bookings<br></a></li>
-                <li><a href="{% url 'profile' %}"> Welcome, {{ user.username }}!</a></li>
+
+                 <li class="dropdown"><a href="#"><span>Welcome, {{ user.username }}!</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="{%  url 'profile' %}">Profile </a></li>
+                <li><a href="{% url 'profile' %}"> Notifications </a></li>
+                <li><a href="{% url 'profile' %}"> Reviews </a></li>
+                  {% if user.providerprofile %}
+
+                     <li><a href="{% url 'booking-requests' %}"> Booking Requests </a></li>
+                      <li><a href="{% url 'booking-history' %}"> Service History </a></li>
+                      <li><a href="#"> My Reviews </a></li>
+
+                 {% endif %}
+
+
+              </ul>
+            </li>
+
+
 {#                 <li><a href="{% url 'logout' %}"> LogOut</a></li>#}
                  <form action="{% url 'logout' %}" method="post">
                     <li>{% csrf_token %}

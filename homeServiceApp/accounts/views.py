@@ -8,7 +8,7 @@ from django.contrib.auth.views import LoginView
 
 
 class RegisterView(FormView):
-    template_name = 'Auth/register.html'
+    template_name = 'Auth/bregister.html'
     form_class = CustomerRegisterForm
     success_url = 'login'
     def form_valid(self, form):
@@ -59,14 +59,14 @@ class RegisterView(FormView):
 
 
 class NewLoginView(LoginView):
-    template_name = 'Auth/login.html'
+    template_name = 'Auth/blogin.html'
 
 
 from django.shortcuts import redirect
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
-    template_name = 'Auth/userProfiles.html'
+    template_name = 'Auth/buserProfiles.html'
 
 
 

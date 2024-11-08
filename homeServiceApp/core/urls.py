@@ -23,9 +23,11 @@ urlpatterns = [
     path('services/<service_id>/', ServiceDetailView.as_view(), name='services'),
     path('createBooking/<service_id>/<provider_id>/', BookingCreateView.as_view(), name='createBooking'),
     path('bookings', BookingListView.as_view(), name='bookings'),
+    path('bookings/<id>/cancel', BookingCancelbyInitiatorView.as_view(), name='bookings-cancel-by-initiator'),
     path('providers/', ProviderListView.as_view(), name='providers'),
     path('providers/<id>/', ProviderDetailView.as_view(), name='providers'),
     path('booking-requests/', ProviderBooks.as_view(), name='booking-requests'),
+    path('booking-history/', ProviderBookings.as_view(), name='booking-history'),
     path('booking-requests/<id>/cancel', BookingCancelView.as_view(), name='booking-cancel'),
     path('booking-requests/<id>/accept', BookingAcceptView.as_view(), name='booking-accept'),
 

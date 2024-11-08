@@ -1,0 +1,76 @@
+
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<main id="main" class="main py-4 mt-2">
+
+{#    {% include 'partials/breadcrumbs.html' %}#}
+{#    {% include 'partials/messages.html' %}#}
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              <h2>{{ user.first_name }}</h2>
+              <h3>{{ user.last_name }}</h3>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-xl-12">
+              <div class="card">
+                <div class="card-body pt-3">
+                  <!-- Bordered Tabs -->
+                  <ul class="nav nav-tabs nav-tabs-bordered">
+                    <li class="nav-item">
+                      <button class="nav-link btn active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                    </li>
+
+                    <li class="nav-item">
+                      <button class="nav-link btn" data-bs-toggle="tab" data-bs-target="#profile-edit">Update Address</button>
+                    </li>
+
+                    <li class="nav-item">
+                      <button class="nav-link btn" data-bs-toggle="tab" data-bs-target="#profile-change-branch">Change Branch</button>
+                    </li>
+
+
+                      {% if is_provider %}
+                          <li class="nav-item">
+                            <button class="nav-link btn" data-bs-toggle="tab" data-bs-target="#provider-overview">Provider Information</button>
+                          </li>
+                      {% endif %}
+                  </ul>
+                  <div class="tab-content pt-2">
+                    {% include 'Auth/01-tabs/01-profile-overview.html' %}
+
+                    {% include 'Auth/01-tabs/02-profile-edit.html' %}
+
+                      {% if is_provider %}
+                          {% include 'Auth/01-tabs/03-provider-overview.html' %}
+                      {% endif %}
+{#                    {% include 'Auth/01-tabs/03-profile-change-branch.html' %}#}
+                  </div><!-- End Bordered Tabs -->
+
+                </div>
+              </div>
+
+        </div>
+        </div>
+    </section>
+
+  </main><!-- End #main -->
+
+{% endblock %}

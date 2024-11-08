@@ -1,0 +1,134 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <section class="form_1 pt-120 pb-120">
+	<div class="container px-xl-0">
+		<form action="{%  url  'register' %}" method="post" class="bg-light mx-auto mw-430 radius10 pt-40 px-50 pb-30">
+            {% csrf_token %}
+			<h2 class="mb-40 small text-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Login </h2>
+
+
+
+            {% for field in form %}
+                <div class="mb-20 input_holder" data-aos-duration="600" data-aos="fade-down" data-aos-delay="150">
+                    <label for="">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+            {% endfor %}
+
+
+			<div data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				<button class="mt-25 btn action-1 w-full" type="submit">Register</button>
+			</div>
+            <div class="text-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				or
+			</div>
+            <div data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				<a href="{% url 'social:begin' 'google-oauth2' %}?next='/'" class="mt-25 btn btn-outline-secondary w-full">Login with Google</a>
+			</div>
+
+
+			<div class="mt-50 hr bg-gray h-1" data-aos-duration="600" data-aos="fade-down" data-aos-delay="750">  </div>
+
+
+			<div class="mt-25 f-18 medium color-heading text-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="900">
+				Do you have an Account? <a href="{% url 'login' %}" class="link action-1">Sign In</a>
+			</div>
+		</form>
+	</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+  <main>
+    <div class="container">
+
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4 mt-2">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+              <div class="d-flex justify-content-center py-4">
+{#                <a href="{% static 'DashBoard' %}" class="logo d-flex align-items-center w-auto">#}
+{#                  <img src="{% static 'img/mblsmall.png' %}" alt="">#}
+{#                  <span class="d-none d-lg-block">Mercantile Bank Ltd.</span>#}
+{#                </a>#}
+              </div><!-- End Logo -->
+
+              <div class="bg-body-tertiary p-4 mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                      <h1 class="sitename text-center">HireUp</h1>
+{#                    <h5 class="card-title text-center pb-0 fs-4">Sustainable Finance Reporting Software</h5>#}
+                    <p class="text-center small">Enter your username & password to login</p>
+{#                      {%  include 'partials/messages.html' %}#}
+                  </div>
+
+                  <form class="row g-3 needs-validation "  method="post" action="{% url 'register' %}" >
+                        {% csrf_token %}
+
+                      {% for field in form %}
+                        <div class="col-12">
+
+
+                        <div class="mb-20 input_holder" data-aos-duration="600" data-aos="fade-down" data-aos-delay="150">
+                            {{ field }}
+                        </div>
+{#                          <div class="input-group has-validation">#}
+{#                            #}
+{#                            <div class="invalid-feedback">#}
+{#                                {% if field.errors %}#}
+{#                                    {{ field.errors|striptags }}#}
+{#                                {% else %}#}
+{#                                    Please enter your {{ field.label }}.#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{#                          </div>#}
+                        </div>
+                    {% endfor %}
+
+                    <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">Sign Up</button>
+                    </div>
+                    <div class="col-12 text-center">
+                      or
+                    </div>
+                    <div class="col-12">
+                         <a href="{% url 'social:begin' 'google-oauth2' %}?next='/'" class="btn btn-outline-secondary w-100" type="submit">
+                          Login with Google
+                      </a>
+                    </div>
+                    <div class="col-12 text-center">
+                      <p class="small mb-0">Don't have account? <a href="{% url 'login' %}">Create an account</a></p>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+    <!-- End #main -->
+
+{% endblock %}

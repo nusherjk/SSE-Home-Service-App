@@ -1,4 +1,4 @@
-{% extends 'layout/master.html' %}
+{% extends 'layout/base.html' %}
 {% load static %}
 {% block content %}
 
@@ -40,9 +40,7 @@
                         <td>
                             <a href="{% url 'booking-accept' booking.id %}" class="btn btn-outline-success"> Accept</a>
                             <a href="{% url 'booking-cancel' booking.id %}" class="btn btn-outline-danger"> Reject</a>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                  Launch demo modal
-                                </button>
+                            
 
                         </td>
 

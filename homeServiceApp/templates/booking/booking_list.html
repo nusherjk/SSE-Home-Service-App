@@ -1,4 +1,4 @@
-{% extends 'layout/master.html' %}
+{% extends 'layout/base.html' %}
 {% load static %}
 
 {% block content %}
@@ -43,7 +43,12 @@
                         <td>{{ booking.end_date }} {{ booking.end_time }}</td>
 {#                        <td>{{ booking.duration }}</td>#}
                         <td>{{ booking.status }}</td>
-                        <td><a href="#" class="btn btn-outline-secondary"> View</a></td>
+{#                        <td><a href="#" class="btn btn-outline-secondary"> View</a></td>#}
+                        <td><a href="{% url 'bookings-cancel-by-initiator' booking.id %}" class="btn btn-outline-danger"
+                               {% if booking.status != 'PENDING' %}
+                                   disabled
+                                {% endif %}
+                        > Cancel</a></td>
 
                     </tr>
                     {% endfor %}

@@ -1,0 +1,34 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<section class="form_1 pt-120 pb-120">
+	<div class="container px-xl-0">
+		<form action="{%  url  'login' %}" method="post" class="bg-light mx-auto mw-430 radius10 pt-40 px-50 pb-30">
+            {% csrf_token %}
+			<h2 class="mb-40 small text-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="0">Login </h2>
+			<div class="mb-20 input_holder" data-aos-duration="600" data-aos="fade-down" data-aos-delay="150">
+				<input type="username" name="username" placeholder="Your username" class="input border-gray focus-action-1 color-heading placeholder-heading w-full" />
+			</div>
+			<div class="mb-20 input_holder" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
+				<input type="password" name="password" placeholder="Your password" class="input border-gray focus-action-1 color-heading placeholder-heading w-full" />
+			</div>
+			<div data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				<button class="mt-25 btn action-1 w-full" type="submit">Login Account</button>
+			</div>
+            <div class="text-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				or
+			</div>
+            <div data-aos-duration="600" data-aos="fade-down" data-aos-delay="600">
+				<a href="{% url 'social:begin' 'google-oauth2' %}?next='/'" class="mt-25 btn btn-outline-secondary w-full">Login with Google</a>
+			</div>
+
+
+			<div class="mt-50 hr bg-gray h-1" data-aos-duration="600" data-aos="fade-down" data-aos-delay="750">  </div>
+
+
+			<div class="mt-25 f-18 medium color-heading text-center" data-aos-duration="600" data-aos="fade-down" data-aos-delay="900">
+				Do you have an Account? <a href="{% url 'register' %}" class="link action-1">Sign In</a>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock %}

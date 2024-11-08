@@ -24,7 +24,7 @@ class AddressForm(forms.ModelForm):
 class CustomerRegisterForm(forms.ModelForm):
 
     retype_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Retype your password'}),
+        widget=forms.PasswordInput(attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'placeholder': 'Retype your password'}),
         label='Retype Password',
         min_length=8
     )
@@ -43,17 +43,17 @@ class CustomerRegisterForm(forms.ModelForm):
         }
         widgets = {
             'first_name': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'First Name', 'required': 'required'}),
+                attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'placeholder': 'First Name', 'required': 'required'}),
             'last_name': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Last Name', 'required': 'required'}),
-            'dob': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'required': 'required'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}),
-            'country': forms.Select(attrs={'class': 'form-control', 'required': 'required'}),
-            'C19Vaccinated': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+                attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'placeholder': 'Last Name', 'required': 'required'}),
+            'dob': forms.DateInput(attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'type': 'date', 'required': 'required'}),
+            'email': forms.EmailInput(attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'placeholder': 'Email', 'required': 'required'}),
+            'country': forms.Select(attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'required': 'required'}),
+            'C19Vaccinated': forms.CheckboxInput(attrs={'class': 'border-gray focus-action-1', 'id': "form_1_checkbox" }),
             'profession': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Profession', 'required': 'required'}),
+                attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'placeholder': 'Profession', 'required': 'required'}),
             'password': forms.PasswordInput(
-                attrs={'class': 'form-control', 'placeholder': 'Password', 'required': 'required'}),
+                attrs={'class': 'input border-gray focus-action-1 color-heading placeholder-heading w-full', 'placeholder': 'Password', 'required': 'required'}),
         }
 
 

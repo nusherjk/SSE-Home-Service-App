@@ -1,3 +1,4 @@
+{% load static %}
 <!-- Services Section -->
         <section id="services" class="services section">
 
@@ -20,16 +21,28 @@
 
                 {% for service in services %}
 
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="service-item  position-relative">
-                          <div class="icon">
+                    <div class="col-md-4 col-sm-6" data-aos-duration="600" data-aos="fade-down" data-aos-delay="300">
+                        <a href="{% url 'services' service.id %}" class="mt-50 link color-main link-underline-opacity-100-hover">
+                            <div class="icon dark-background">
+
                             <i class="bi bi-activity"></i>
+{#                          </div>#}
                           </div>
-                          <h3>{{ service.name }}</h3>
-                          <p>{{ service.category }}</p>
-                          <a href="{% url 'services' service.id %}" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>
-                        </div>
-                      </div><!-- End Service Item -->
+                            <div class="mt-20 mb-15 f-22 title">{{ service.name }}</div>
+                            <div class="color-heading f-14 semibold text-uppercase sp-20">{{ service.category }}</div>
+                        </a>
+                    </div>
+
+{#                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">#}
+{#                        <div class="service-item  position-relative">#}
+{#                          <div class="icon">#}
+{#                            <i class="bi bi-activity"></i>#}
+{#                          </div>#}
+{#                          <h3>{{ service.name }}</h3>#}
+{#                          <p>{{ service.category }}</p>#}
+{#                          <a href="{% url 'services' service.id %}" class="readmore stretched-link">Read more <i class="bi bi-arrow-right"></i></a>#}
+{#                        </div>#}
+{#                      </div><!-- End Service Item -->#}
 
                 {% endfor %}
 
