@@ -34,7 +34,7 @@ class BookingAdmin(admin.ModelAdmin):
     list_display = ('customer', 'service', 'provider', 'date', 'time', 'status')
     list_filter = ('status', 'date', 'provider')
     search_fields = ('customer__username', 'provider__user__username', 'service__name')
-    inlines = [ReviewInline]  # Allowing reviews to be shown inline in the booking view
+    # inlines = [ReviewInline]  # Allowing reviews to be shown inline in the booking view
 
 # Customize the admin view for Review
 @admin.register(Review)

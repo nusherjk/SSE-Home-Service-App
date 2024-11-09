@@ -17,6 +17,15 @@ class OwnerofBookingMixin:
         booking = Booking.objects.get(id=kwargs['id'])
         if not request.user.is_authenticated or request.user != booking.customer:
             return HttpResponseForbidden("You do not have permission to access this view.")
-        elif not request.user.is_authenticated or request.user != booking.provider:
-            return HttpResponseForbidden("You do not have permission to access this view.")
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class BookingAllreadyDoneMixin:
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user is authenticated and has `is_completed` set to True
+        booking = Booking.objects.get(id=kwargs['id'])
+        if not request.user.is_authenticated or( request.user != booking.provider or  booking.status != 'PENDING'):
+            return HttpResponseForbidden("You cannot accept an already accepted booking.")
+
         return super().dispatch(request, *args, **kwargs)

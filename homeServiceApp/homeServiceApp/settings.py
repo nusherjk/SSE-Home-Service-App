@@ -99,7 +99,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "db_homeservice",
-        "USER": "sse",
+        "USER": "root",
         "PASSWORD": "Bangladesh@1971",
         "HOST": "localhost",
         "PORT": "3306",

@@ -36,11 +36,11 @@
 
                       </div>
 
-                    <div class="card-footer bg-danger-subtle" >
+                    <div class="card-footer " >
                             {% if user.is_completed %}
                               <div><a href="{% url 'createBooking' service_id=service.id provider_id=provider.id %}" class=" btn btn-primary float-end">Make a booking!</a></div>
                                 {% else %}
-                                <div><a href="{% url 'createBooking' service_id=service.id provider_id=provider.id %}" class=" btn float-end" disabled="true" >Make a booking!</a></div>
+                                Please Complete your user informations!
                                 
                             {% endif %}
 

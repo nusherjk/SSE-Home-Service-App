@@ -1,7 +1,9 @@
+import datetime
 from datetime import timedelta
 from decimal import Decimal
 
 from django.db import models
+
 
 # Service Category (e.g., Plumbing, Cleaning, Electrical)
 class ServiceCategory(models.Model):
@@ -21,8 +23,6 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.category.name}"
-
-
 
 
 # Profile for service providers
@@ -45,7 +45,7 @@ class Booking(models.Model):
     provider = models.ForeignKey(ProviderProfile, on_delete=models.CASCADE)
     date = models.DateField()
     time = models.TimeField()
-    address = models.CharField(max_length=255)
+    address = models.ForeignKey('accounts.Address', related_name='booking_address', on_delete=models.CASCADE)
     notes = models.TextField(blank=True)
     end_date = models.DateField(null=True, blank=True)
     end_time = models.TimeField(null=True, blank=True)
@@ -54,9 +54,9 @@ class Booking(models.Model):
         ('Accepted', 'Accepted'),
         ('Completed', 'Completed'),
         ('Cancelled', 'Cancelled'),
+        ('Expired', 'Expired'),
     ]
-    status = models.CharField(max_length=10, choices=status_choices, default='Pending')
-
+    status = models.CharField(max_length=20, choices=status_choices, default='Pending')
 
     def calculate_total_price(self):
         # Service charge (already stored in the 'price' field)
@@ -69,9 +69,18 @@ class Booking(models.Model):
         job_duration_in_hours = Decimal(self.service.duration.total_seconds() / 3600)  # Convert seconds to hours
 
         # Calculate the total price
-        total_price = service_charge + (hourly_rate * job_duration_in_hours )
+        total_price = service_charge + (hourly_rate * job_duration_in_hours)
 
         return total_price
+
+    def check_and_update_date(self):
+        """
+        Checks if `self.date` is greater than `comparison_date` and updates it if necessary.
+        """
+        if self.date < datetime.datetime.now().date():
+            # Update the field or any logic you need to apply
+            self.status = 'Expired'  # Example of updating it to the current date
+            self.save()  # Save the changes to the database
 
     def __str__(self):
         return f"Booking by {self.customer.username} for {self.service.name}"
@@ -83,7 +92,7 @@ class Review(models.Model):
     customer = models.ForeignKey("accounts.Customer", on_delete=models.CASCADE)
     provider = models.ForeignKey(ProviderProfile, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(default=5)
-    comment = models.TextField()
+    comment = models.CharField(max_length=2000, blank=True)
 
     def __str__(self):
         return f"Review by {self.customer.username} for {self.provider.user.username}"

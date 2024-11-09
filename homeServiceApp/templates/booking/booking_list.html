@@ -43,12 +43,17 @@
                         <td>{{ booking.end_date }} {{ booking.end_time }}</td>
 {#                        <td>{{ booking.duration }}</td>#}
                         <td>{{ booking.status }}</td>
+                        <td>
+                         {% if booking.status == 'Pending' %}
+                                   <a href="{% url 'bookings-cancel-by-initiator' booking.id %}" class="btn btn-outline-danger"> Cancel</a>
+                             {% elif booking.status == 'Expired' %}
+                                <a href="{%  url 'bookings-completed' booking.id %}" class="btn btn-outline-success"> Notify Complete</a>
+                             
+                             {% elif booking.status == 'Completed' %}
+                                <a href="{%  url 'bookings-review' booking.id %}" class="btn btn-outline-success"> Review </a>
+                            {% endif %}
 {#                        <td><a href="#" class="btn btn-outline-secondary"> View</a></td>#}
-                        <td><a href="{% url 'bookings-cancel-by-initiator' booking.id %}" class="btn btn-outline-danger"
-                               {% if booking.status != 'PENDING' %}
-                                   disabled
-                                {% endif %}
-                        > Cancel</a></td>
+                        </td>
 
                     </tr>
                     {% endfor %}

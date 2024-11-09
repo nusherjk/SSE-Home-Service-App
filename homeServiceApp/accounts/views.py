@@ -1,9 +1,11 @@
 from django.apps import apps
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.checks import messages
+from django.urls import reverse_lazy
+
 from .models import Customer
-from .forms import CustomerRegisterForm, AddressForm
-from django.views.generic import TemplateView, FormView
+from .forms import CustomerRegisterForm, AddressForm, UpdateProfileForm
+from django.views.generic import TemplateView, FormView, UpdateView, RedirectView
 from django.contrib.auth.views import LoginView
 
 
@@ -74,6 +76,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['is_provider'] = False
         context['addressform'] = AddressForm()
+        context['upadteprofile'] = UpdateProfileForm(instance=self.request.user)
         if apps.get_model('core', 'ProviderProfile').objects.filter(user=self.request.user).exists():
             context['is_provider'] = True
             context['user_additional'] = apps.get_model('core', 'ProviderProfile').objects.get(user=self.request.user)
@@ -99,6 +102,18 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 
         return redirect('profile')
+
+
+
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    model = Customer
+    form_class = UpdateProfileForm
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        # Return the currently logged-in user as the object to be updated
+        return self.request.user
+
 
 
 

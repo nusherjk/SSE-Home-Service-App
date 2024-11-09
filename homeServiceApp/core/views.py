@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import TemplateView, RedirectView
 
-from .permissions import UserIsCompletedMixin
+from .permissions import UserIsCompletedMixin, OwnerofBookingMixin
 
 # Create your views here.
 PENDING ='Pending'
@@ -90,11 +90,12 @@ class BookingCreateView(UserIsCompletedMixin, LoginRequiredMixin, TemplateView):
         startTimeDate = datetime.datetime.combine(date=datetime.datetime.strptime(self.request.POST['ddate'], '%Y-%m-%d').date(),
                                                   time=datetime.datetime.strptime(self.request.POST['dtime'], '%H:%M').time())
         endTimeDate = startTimeDate+ duration
+
         booking = Booking.objects.create(
             customer=self.request.user,
             service=self.service_model.objects.get(id=self.kwargs['service_id']),
             provider=self.provider_model.objects.get(id=self.kwargs['provider_id']),
-            address=self.request.POST['daddress'],
+            address=self.request.user.address,
             date=self.request.POST['ddate'],
             time=self.request.POST['dtime'],
             end_date= endTimeDate.date(),
@@ -118,7 +119,10 @@ class BookingListView(LoginRequiredMixin, ListView):
     context_object_name = 'bookings'
 
     def get_queryset(self):
-        return Booking.objects.filter(customer=self.request.user)
+        bookings = Booking.objects.filter(customer=self.request.user)
+        for booking in bookings:
+            booking.check_and_update_date()
+        return bookings
 
 # Detail view for a specific booking
 # TODO:
@@ -153,7 +157,7 @@ class BookingCancelView(LoginRequiredMixin, RedirectView):
         # Continue with the redirection
         return super().get(self.request, *args, **kwargs)
 
-class BookingCancelbyInitiatorView(LoginRequiredMixin, RedirectView):
+class BookingCancelbyInitiatorView(OwnerofBookingMixin, RedirectView):
     url = reverse_lazy('bookings')  # Replace 'history-page' with your target URL name
     def get(self, *args, **kwargs):
 
@@ -164,10 +168,23 @@ class BookingCancelbyInitiatorView(LoginRequiredMixin, RedirectView):
             booking.save()
 
 
-
         # Continue with the redirection
         return super().get(self.request, *args, **kwargs)
 
+class BookingCompletedView(LoginRequiredMixin, RedirectView):
+    url = reverse_lazy('bookings')  # Replace 'history-page' with your target URL name
+
+    def get(self, *args, **kwargs):
+        # Call a function to update the history (implement your history update logic here)
+        booking = Booking.objects.get(id=kwargs['id'])
+        booking.status = COMPLETED
+        booking.save()
+        # Continue with the redirection
+        return super().get(self.request, *args, **kwargs)
+
+
+class ReviewAgainstWorkerView(TemplateView, LoginRequiredMixin):
+    pass
 class BookingAcceptView(LoginRequiredMixin, RedirectView):
     url = reverse_lazy('booking-requests')  # Replace 'history-page' with your target URL name
 

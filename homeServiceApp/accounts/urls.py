@@ -24,7 +24,8 @@ from django.contrib.auth import views as auth_views
 # )
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import NewLoginView, RegisterView, ProfileView
+from .views import NewLoginView, RegisterView, ProfileView, UpdateProfileView
+
 # , send_otp, verify_otp)
 # from .views import UserViewSet
 urlpatterns = [
@@ -33,5 +34,6 @@ urlpatterns = [
     path('register', RegisterView.as_view(), name="register"),
     path('logout', auth_views.LogoutView.as_view(), name="logout"),
     path('profile', ProfileView.as_view(), name="profile"),
+    path('profileupdate', UpdateProfileView.as_view(), name="profile-update"),
 
 ]

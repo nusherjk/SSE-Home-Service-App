@@ -31,10 +31,12 @@
 	<body>
 <!-- Navigation 1 -->
 {% include 'headers/primeHeader.html' %}
+<div class="min-vh-100">
+    {% block content %}
 
-{% block content %}
+    {% endblock %}
+</div>
 
-{% endblock %}
 <!-- Footer 1 -->
 
 {% include 'footers/primeFooter.html' %}

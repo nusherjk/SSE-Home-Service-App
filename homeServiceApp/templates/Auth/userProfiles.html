@@ -36,7 +36,7 @@
                     </li>
 
                     <li class="nav-item">
-                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-branch">Change Branch</button>
+                      <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-update">Profile Update</button>
                     </li>
 
 
@@ -50,6 +50,7 @@
                     {% include 'Auth/01-tabs/01-profile-overview.html' %}
 
                     {% include 'Auth/01-tabs/02-profile-edit.html' %}
+                    {% include 'Auth/01-tabs/04-updateProfile.html' %}
 
                       {% if is_provider %}
                           {% include 'Auth/01-tabs/03-provider-overview.html' %}
