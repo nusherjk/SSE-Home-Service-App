@@ -9,28 +9,42 @@ services:
       MYSQL_USER: db_user
       MYSQL_PASSWORD: Bangladesh@1971
       MYSQL_ROOT_PASSWORD: Bangladesh@1971
+    volumes:
+      - ./db_initialdata.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+
 
 
   migrate:
     build:
       context: .
       dockerfile: Dockerfile
-    command: python homeServiceApp/manage.py migrate
+    command: python ./homeServiceApp/manage.py migrate
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
+
 
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    command:  python homeServiceApp/manage.py runserver 0.0.0.0:8000
+    command: python homeServiceApp/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     depends_on:
-      - db
-      - migrate
+      db:
+        condition: service_healthy
+
 
