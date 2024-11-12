@@ -14,11 +14,12 @@
 
                  {% if user.is_authenticated %}
                      <a href="{% url 'bookings' %}" class="link color-main mx-15">Bookings</a>
+                     <a href="{% url 'user-reviews' %}" class="link color-main mx-15"> My Reviews</a>
                      {% if user.providerprofile %}
-                         
-                     <a href="{% url 'booking-requests' %}"  class="link color-main mx-15"> Booking Requests </a>
-                      <a href="{% url 'booking-history' %}"  class="link color-main mx-15"> Service History </a>
-                      <a href="#"  class="link color-main mx-15"> My Reviews </a>
+
+                         <a href="{% url 'booking-requests' %}"  class="link color-main mx-15"> Booking Requests </a>
+                         <a href="{% url 'booking-history' %}"  class="link color-main mx-15"> Service History </a>
+{#                         <a href="#"  class="link color-main mx-15"> User Reviews </a>#}
 
                     {% endif %}
                      

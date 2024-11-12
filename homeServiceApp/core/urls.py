@@ -26,6 +26,7 @@ urlpatterns = [
     path('bookings/<id>/cancel', BookingCancelbyInitiatorView.as_view(), name='bookings-cancel-by-initiator'),
     path('bookings/<id>/complete', BookingCompletedView.as_view(), name='bookings-completed'),
     path('review/<booking_id>/', ReviewCreateView.as_view(), name='bookings-review'),
+    path('reviews', UserReviews.as_view(), name='user-reviews'),
     path('providers/', ProviderListView.as_view(), name='providers'),
     path('providers/<id>/', ProviderDetailView.as_view(), name='providers'),
     path('booking-requests/', ProviderBooks.as_view(), name='booking-requests'),

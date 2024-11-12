@@ -56,6 +56,16 @@ class ProviderListView(ListView):
     context_object_name = 'providers'
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+
+        context = super(ProviderListView, self).get_context_data(**kwargs)
+        print(context['providers'])
+        return context
+
+    # provider = get_object_or_404(Provider, id=provider_id)
+    # ratings = provider.ratings.all()
+    # average_rating = ratings.aggregate(models.Avg('rating'))['rating__avg']
+
 # Detail view for a service provider
 class ProviderDetailView(DetailView):
     model = ProviderProfile
@@ -203,26 +213,45 @@ class BookingAcceptView(LoginRequiredMixin, RedirectView):
 
 
 # Create a review for a completed booking
-class ReviewCreateView(LoginRequiredMixin, CreateView):
+class ReviewCreateView(LoginRequiredMixin, TemplateView):
     model = Review
     form_class = ReviewForm
     template_name = 'reviews/review_form.html'
 
     def get_context_data(self, **kwargs):
-        print(kwargs)
-        return super().get_context_data(**kwargs)
-    def form_valid(self, form):
+        form = ReviewForm()
+        context = super().get_context_data(**kwargs)
+        context['form'] = form
+        return context
+
+
+    def post(self, request, *args, **kwargs):
+        form = ReviewForm(request.POST)
         form.instance.customer = self.request.user
-        form.instance.booking = get_object_or_404(Booking, id=self.kwargs['booking_id'])
+        form.instance.booking = get_object_or_404(Booking, id=kwargs['booking_id'])
         form.instance.provider = form.instance.booking.provider
-        return super().form_valid(form)
+        if form.is_valid():
+            review = form.save()
+        return redirect('user-reviews')
+
+
+
+
+
+
 
     def get_success_url(self):
         return reverse_lazy('booking-detail', kwargs={'pk': self.kwargs['booking_id']})
 
 # List all reviews for a specific provider
 
+class UserReviews(LoginRequiredMixin, TemplateView):
+    template_name = 'reviews/review_list.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = Review.objects.filter(customer=self.request.user)
+        return context
 class ProviderBooks(LoginRequiredMixin, TemplateView):
     template_name = 'providers/Booking_requests.html'
 

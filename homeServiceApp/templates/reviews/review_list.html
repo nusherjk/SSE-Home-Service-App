@@ -1,0 +1,71 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+
+  <main class="mt-5">
+    <div class="container mt-5">
+
+        <section  class="services section">
+
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+            <h2> Review History </h2>
+               <table id="bookingsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Provider Name</th>
+                        <th>Total Price</th>
+                        <th>Comment</th>
+                        <th>From date</th>
+                        <th>To date</th>
+{#                        <th>Duration</th>#}
+                        <th>Rating</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                    <tr>
+                        <td>{{ review.booking.service }}</td>
+                        <td>{{ review.provider.user.first_name }} {{ review.provider.user.last_name }}</td>
+                        <td> {{ review.booking.calculate_total_price }} </td>
+                        <td>{{ review.comment }}</td>
+                        <td>{{ review.booking.date }} {{ review.booking.time }}</td>
+                        <td>{{ review.booking.end_date }} {{ review.booking.end_time }}</td>
+                        <td>
+                            <div class="star-rating">
+
+
+
+                                <i class="bi bi-star some {% if review.rating >= 1  %} selected {% endif %}" data-value="1"></i>
+                                <i class="bi bi-star some {% if review.rating >= 2  %} selected {% endif %}" data-value="1"></i>
+                                <i class="bi bi-star some {% if review.rating >= 3  %} selected {% endif %}" data-value="1"></i>
+                                <i class="bi bi-star some {% if review.rating >= 4  %} selected {% endif %}" data-value="1"></i>
+                                <i class="bi bi-star some {% if review.rating >= 5  %} selected {% endif %}" data-value="1"></i>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+
+
+                </tbody>
+            </table>
+
+          </div><!-- End Section Title -->
+
+
+    </section><!-- /Services Section -->
+
+    </div>
+  </main>
+
+
+    <!-- End #main -->
+
+{% endblock %}

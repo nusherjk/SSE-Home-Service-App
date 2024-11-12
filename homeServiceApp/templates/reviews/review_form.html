@@ -4,19 +4,31 @@
 
 
   <main class="mt-5">
+
+
     <div class="container mt-5">
 
         <section  class="services section">
 
           <!-- Section Title -->
-          <div class="container section-title" data-aos="fade-up">
+          <p class="container section-title" data-aos="fade-up">
             <h2> Review  </h2>
 {#            <h2> Review  </h2>#}
 
-              <form action="{% url 'bookings-review' booking_id %}" method="POST">
-
+              <form class="w-75 justify-content-center" action="{% url 'bookings-review' booking_id %}" method="POST">
+                  {% csrf_token %}
+                    <p>
+                         <label>Rate this product:</label>
+                        <div class="star-rating">
+                            <i class="bi bi-star" data-value="1"></i>
+                            <i class="bi bi-star" data-value="2"></i>
+                            <i class="bi bi-star" data-value="3"></i>
+                            <i class="bi bi-star" data-value="4"></i>
+                            <i class="bi bi-star" data-value="5"></i>
+                        </div>
+                    </p>
                   {{ form.as_p }}
-                  <button type="submit"  >Post</button>
+                  <button class="btn btn-outline-primary" type="submit"  >Post</button>
               </form>
 
           </div><!-- End Section Title -->
@@ -25,6 +37,27 @@
     </section><!-- /Services Section -->
 
     </div>
+
+
+  <script>
+        const stars = document.querySelectorAll('.star-rating .bi');
+        const ratingInput = document.getElementById('rating-input');
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                stars.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                let currentStar = this;
+                while (currentStar.previousElementSibling) {
+                    currentStar.previousElementSibling.classList.add('selected');
+                    currentStar = currentStar.previousElementSibling;
+                }
+                {#alert(`You rated this ${this.getAttribute('data-value')} stars`);#}
+
+                ratingInput.value = this.getAttribute('data-value');
+
+            });
+        });
+    </script>
   </main>
 
 
