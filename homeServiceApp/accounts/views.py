@@ -50,7 +50,7 @@ class RegisterView(FormView):
                                                 country=country,
                                                 C19Vaccinated=C19Vaccinated,
                                                 profession=profession,
-                                                is_completed=True
+                                                is_completed=False
                                          )
 
 
