@@ -28,7 +28,7 @@
 {#                      </div>#}
                       <div class="card-body">
                         <h5 class="card-title">{{ provider.user.last_name }} {{ provider.user.first_name }}</h5>
-                          <p class="card-subtitle"><strong>Rating :</strong> {{ provider.rating }} out of 5.00</p>
+                          <p class="card-subtitle"><strong>Rating :</strong> {{ provider.calculate_rating }} out of 5.00</p>
                           <p class="card-subtitle"><strong>Experience :</strong> {{ provider.years_of_experience }} Years.</p>
                           <p class="card-subtitle"><strong>Hourly Rate :</strong> {{ provider.hourly_rate }} AUD.</p>
                           <p class="card-text"><b>About: </b> {{ provider.bio }}</p>

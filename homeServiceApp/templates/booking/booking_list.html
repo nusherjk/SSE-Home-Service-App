@@ -48,9 +48,11 @@
                                    <a href="{% url 'bookings-cancel-by-initiator' booking.id %}" class="btn btn-outline-danger"> Cancel</a>
                              {% elif booking.status == 'Expired' %}
                                 <a href="{%  url 'bookings-completed' booking.id %}" class="btn btn-outline-success"> Notify Complete</a>
-                             
+                             {% elif booking.review %}
+                               <a href="{%  url 'user-reviews'  %}" class="btn btn-outline-success">View Review </a>
                              {% elif booking.status == 'Completed' %}
                                 <a href="{%  url 'bookings-review' booking.id %}" class="btn btn-outline-success"> Review </a>
+                             
                             {% endif %}
 {#                        <td><a href="#" class="btn btn-outline-secondary"> View</a></td>#}
                         </td>

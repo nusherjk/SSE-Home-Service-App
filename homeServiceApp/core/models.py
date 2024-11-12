@@ -3,6 +3,7 @@ from datetime import timedelta
 from decimal import Decimal
 
 from django.db import models
+from django.db.models import Avg
 
 
 # Service Category (e.g., Plumbing, Cleaning, Electrical)
@@ -33,6 +34,13 @@ class ProviderProfile(models.Model):
     hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
     bio = models.TextField()
+
+
+    def calculate_rating(self):
+        average_rating = Review.objects.filter(provider=self).aggregate(Avg('rating'))['rating__avg'] or 0
+        self.rating = average_rating
+        self.save()
+        return average_rating
 
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
