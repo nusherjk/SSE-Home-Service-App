@@ -20,6 +20,7 @@
                         <th>Date</th>
                         <th>From date</th>
                         <th>To date</th>
+                        <th>Address</th>
 {#                        <th>Duration</th>#}
                         <th>Status</th>
                         <th>Action</th>
@@ -35,6 +36,13 @@
                         <td>{{ booking.date }}</td>
                         <td>{{ booking.date }} {{ booking.time }}</td>
                         <td>{{ booking.end_date }} {{ booking.end_time }}</td>
+                        <td>
+                            {% if booking.status == 'Pending' or  booking.status == 'Cancelled' %}
+                            {{ booking.address.postcode }}
+                                {% else %}
+                            {{ booking.address }}
+                            {% endif %}
+                        </td>
 {#                        <td>{{ booking.duration }}</td>#}
                         <td>{{ booking.status }}</td>
                         <td>
