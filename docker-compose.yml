@@ -1,0 +1,36 @@
+version: '3.8'
+
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: db_homeservice
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: Bangladesh@1971
+      MYSQL_ROOT_PASSWORD: Bangladesh@1971
+    ports:
+      - "3306:3306"
+
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python homeServiceApp/manage.py migrate
+    depends_on:
+      - db
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:  python homeServiceApp/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - migrate
+

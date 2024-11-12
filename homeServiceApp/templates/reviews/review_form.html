@@ -1,0 +1,32 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+
+
+  <main class="mt-5">
+    <div class="container mt-5">
+
+        <section  class="services section">
+
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+            <h2> Review  </h2>
+{#            <h2> Review  </h2>#}
+
+              <form action="{% url 'bookings-review' booking_id %}" method="POST">
+
+                  {{ form.as_p }}
+                  <button type="submit"  >Post</button>
+              </form>
+
+          </div><!-- End Section Title -->
+
+
+    </section><!-- /Services Section -->
+
+    </div>
+  </main>
+
+
+
+{% endblock %}

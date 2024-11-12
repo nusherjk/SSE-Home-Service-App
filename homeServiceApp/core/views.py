@@ -73,7 +73,7 @@ class BookingCreateView(UserIsCompletedMixin, LoginRequiredMixin, TemplateView):
 
 
     def get_context_data(self, **kwargs):
-        print("HAHA")
+        # print("HAHA")
         context = super().get_context_data(**kwargs)
         context['service'] = self.service_model.objects.get(id=self.kwargs['service_id'])
         context['provider'] = self.provider_model.objects.get(id=self.kwargs['provider_id'])
@@ -177,14 +177,17 @@ class BookingCompletedView(LoginRequiredMixin, RedirectView):
     def get(self, *args, **kwargs):
         # Call a function to update the history (implement your history update logic here)
         booking = Booking.objects.get(id=kwargs['id'])
+        # print(booking.status)
         booking.status = COMPLETED
+
         booking.save()
+
+        # print(booking.status)
         # Continue with the redirection
-        return super().get(self.request, *args, **kwargs)
+        return super().get(*args, **kwargs)
 
 
-class ReviewAgainstWorkerView(TemplateView, LoginRequiredMixin):
-    pass
+
 class BookingAcceptView(LoginRequiredMixin, RedirectView):
     url = reverse_lazy('booking-requests')  # Replace 'history-page' with your target URL name
 
@@ -205,6 +208,9 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
     form_class = ReviewForm
     template_name = 'reviews/review_form.html'
 
+    def get_context_data(self, **kwargs):
+        print(kwargs)
+        return super().get_context_data(**kwargs)
     def form_valid(self, form):
         form.instance.customer = self.request.user
         form.instance.booking = get_object_or_404(Booking, id=self.kwargs['booking_id'])

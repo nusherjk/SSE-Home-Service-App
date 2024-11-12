@@ -79,8 +79,9 @@ class Booking(models.Model):
         """
         if self.date < datetime.datetime.now().date():
             # Update the field or any logic you need to apply
-            self.status = 'Expired'  # Example of updating it to the current date
-            self.save()  # Save the changes to the database
+            if self.status == 'Accepted':
+                self.status = 'Expired'  # Example of updating it to the current date
+                self.save()  # Save the changes to the database
 
     def __str__(self):
         return f"Booking by {self.customer.username} for {self.service.name}"

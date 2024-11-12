@@ -34,3 +34,8 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['rating', 'comment']
+        widgets = {
+            'rating': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'required': 'required'}),
+            'comment': forms.EmailInput(
+                attrs={'class': 'form-control', 'placeholder': 'Address', 'required': 'required'}),
+        }
