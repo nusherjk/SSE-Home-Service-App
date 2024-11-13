@@ -40,10 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_countries',
     'social_django',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google',
     'core',
     'accounts',
 
@@ -99,10 +95,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "db_homeservice",
-        # "USER": "root",
         "USER": "db_user",
         "PASSWORD": "Bangladesh@1971",
-        # "HOST": "localhost",
         "HOST": "db",
         "PORT": "3306",
         "OPTIONS": {
